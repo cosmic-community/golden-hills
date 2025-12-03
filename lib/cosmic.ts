@@ -157,7 +157,9 @@ export async function getBlogPosts(limit: number = 9, skip: number = 0): Promise
     if (hasStatus(error) && error.status === 404) {
       return { posts: [], total: 0 };
     }
-    throw new Error('Failed to fetch blog posts');
+    // Return empty array instead of throwing to prevent build failures
+    console.warn('Failed to fetch blog posts:', error);
+    return { posts: [], total: 0 };
   }
 }
 
@@ -183,7 +185,9 @@ export async function getFeaturedBlogPosts(limit: number = 3): Promise<BlogPost[
     if (hasStatus(error) && error.status === 404) {
       return [];
     }
-    throw new Error('Failed to fetch featured blog posts');
+    // Return empty array instead of throwing to prevent build failures
+    console.warn('Failed to fetch featured blog posts:', error);
+    return [];
   }
 }
 
