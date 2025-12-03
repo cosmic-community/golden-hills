@@ -76,6 +76,11 @@ export default function Footer({ settings }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">
+                  Blog
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
                   About Us
                 </Link>

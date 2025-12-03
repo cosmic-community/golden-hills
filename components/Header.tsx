@@ -18,6 +18,7 @@ export default function Header({ settings }: HeaderProps) {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/products', label: 'Products' },
+    { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' },
     { href: '/farming-practices', label: 'Our Practices' },
   ];
