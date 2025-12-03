@@ -60,6 +60,47 @@ export interface SiteSettings extends CosmicObject {
   };
 }
 
+// Blog Author object
+export interface Author extends CosmicObject {
+  metadata: {
+    name: string;
+    bio?: string;
+    photo?: CosmicFile;
+    email?: string;
+  };
+}
+
+// Blog Category object
+export interface BlogCategory extends CosmicObject {
+  metadata: {
+    name: string;
+    description?: string;
+  };
+}
+
+// Blog Tag object
+export interface BlogTag extends CosmicObject {
+  metadata: {
+    name: string;
+  };
+}
+
+// Blog Post object
+export interface BlogPost extends CosmicObject {
+  metadata: {
+    title: string;
+    excerpt: string;
+    content: string;
+    featured_image: CosmicFile;
+    author: Author;
+    categories?: BlogCategory[];
+    tags?: BlogTag[];
+    published_date: string;
+    featured?: boolean;
+    meta_description?: string;
+  };
+}
+
 // API response types
 export interface CosmicResponse<T> {
   objects: T[];

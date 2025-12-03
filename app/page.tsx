@@ -1,13 +1,14 @@
 import Link from 'next/link';
-import { getSiteSettings, getFeaturedProducts, getProducts } from '@/lib/cosmic';
+import { getSiteSettings, getFeaturedProducts, getProducts, getFeaturedBlogPosts } from '@/lib/cosmic';
 import ProductCard from '@/components/ProductCard';
 import { CATEGORIES } from '@/types';
 
 export default async function HomePage() {
-  const [settings, featuredProducts, allProducts] = await Promise.all([
+  const [settings, featuredProducts, allProducts, featuredBlogPosts] = await Promise.all([
     getSiteSettings(),
     getFeaturedProducts(),
     getProducts(),
+    getFeaturedBlogPosts(3),
   ]);
 
   const ranchName = settings?.metadata?.ranch_name || 'Golden Hills Ranch';
@@ -99,8 +100,32 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Featured Blog Posts */}
+      {featuredBlogPosts.length > 0 && (
+        <section className="py-16 px-4 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">From the Ranch</h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Stories, recipes, and insights from our sustainable farming journey
+              </p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {featuredBlogPosts.map((post) => (
+                <BlogPostCard key={post.id} post={post} />
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link href="/blog" className="btn-primary">
+                Read More Articles
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* About Preview */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-16 px-4 bg-earth-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -166,6 +191,42 @@ export default async function HomePage() {
         </div>
       </section>
     </div>
+  );
+}
+
+// Blog Post Card Component
+function BlogPostCard({ post }: { post: any }) {
+  const featuredImage = post.metadata?.featured_image?.imgix_url;
+  const author = post.metadata?.author;
+  
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group bg-earth-50 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+    >
+      <div className="relative h-48 bg-gray-200 overflow-hidden">
+        {featuredImage && (
+          <img
+            src={`${featuredImage}?w=800&h=400&fit=crop&auto=format,compress`}
+            alt={post.metadata?.title || post.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        )}
+      </div>
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
+          {post.metadata?.title || post.title}
+        </h3>
+        <p className="text-gray-600 mb-4 line-clamp-2">
+          {post.metadata?.excerpt}
+        </p>
+        {author && (
+          <p className="text-sm text-gray-500">
+            By {author.metadata?.name || author.title}
+          </p>
+        )}
+      </div>
+    </Link>
   );
 }
 
