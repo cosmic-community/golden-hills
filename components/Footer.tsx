@@ -90,6 +90,11 @@ export default function Footer({ settings }: FooterProps) {
                   Our Practices
                 </Link>
               </li>
+              <li>
+                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
