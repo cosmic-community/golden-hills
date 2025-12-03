@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import type { SiteSettings } from '@/types';
 
 interface HeaderProps {
@@ -10,6 +11,7 @@ interface HeaderProps {
 
 export default function Header({ settings }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
   
   const ranchName = settings?.metadata?.ranch_name || 'Golden Hills Ranch';
 
@@ -19,6 +21,11 @@ export default function Header({ settings }: HeaderProps) {
     { href: '/about', label: 'About' },
     { href: '/farming-practices', label: 'Our Practices' },
   ];
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
