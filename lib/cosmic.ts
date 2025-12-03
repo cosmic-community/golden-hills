@@ -30,6 +30,29 @@ export async function getProducts(): Promise<Product[]> {
   }
 }
 
+// Search products by query
+export async function searchProducts(query: string): Promise<Product[]> {
+  try {
+    const allProducts = await getProducts();
+    const searchLower = query.toLowerCase().trim();
+    
+    return allProducts.filter(product => {
+      const name = (product.metadata?.name || product.title || '').toLowerCase();
+      const description = (product.metadata?.description || '').toLowerCase();
+      const categoryValue = (product.metadata?.category?.value || '').toLowerCase();
+      
+      return name.includes(searchLower) || 
+             description.includes(searchLower) ||
+             categoryValue.includes(searchLower);
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error('Failed to search products');
+  }
+}
+
 // Fetch featured products
 export async function getFeaturedProducts(): Promise<Product[]> {
   try {
