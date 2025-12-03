@@ -21,7 +21,7 @@ export default function Header({ settings }: HeaderProps) {
     { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' },
     { href: '/farming-practices', label: 'Our Practices' },
-    { href: '/contact', label: 'Contact' }, // Changed: Added Contact link
+    { href: '/contact', label: 'Contact' },
   ];
 
   // Scroll to top on route change

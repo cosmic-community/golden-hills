@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import type { CategoryInfo } from '@/types';
 
 interface CategoryFilterProps {
@@ -16,12 +16,23 @@ export default function CategoryFilter({
   productCounts 
 }: CategoryFilterProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  
+  // Preserve search query when changing categories
+  const search = searchParams.get('search');
+  const buildUrl = (categoryKey?: string) => {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (categoryKey) params.set('category', categoryKey);
+    const queryString = params.toString();
+    return `${pathname}${queryString ? `?${queryString}` : ''}`;
+  };
 
   return (
     <div className="mb-8">
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 justify-center">
         <Link
-          href={pathname}
+          href={buildUrl()}
           className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
             !currentCategory
               ? 'bg-primary-600 text-white'
@@ -37,7 +48,7 @@ export default function CategoryFilter({
           return (
             <Link
               key={category.key}
-              href={`${pathname}?category=${category.key}`}
+              href={buildUrl(category.key)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-primary-600 text-white'
