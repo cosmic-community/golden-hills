@@ -112,8 +112,66 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <article className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
-            <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 hover:prose-a:text-primary-700 prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700">
-              <ReactMarkdown>{content}</ReactMarkdown>
+            <div className="prose prose-lg max-w-none 
+              prose-headings:text-gray-900 prose-headings:font-bold
+              prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+              prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+              prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6
+              prose-a:text-primary-600 prose-a:no-underline hover:prose-a:text-primary-700 hover:prose-a:underline
+              prose-strong:text-gray-900 prose-strong:font-semibold
+              prose-ul:my-6 prose-ul:list-disc prose-ul:list-inside
+              prose-ol:my-6 prose-ol:list-decimal prose-ol:list-inside
+              prose-li:text-gray-700 prose-li:mb-2
+              prose-blockquote:border-l-4 prose-blockquote:border-primary-500 prose-blockquote:pl-4 prose-blockquote:italic
+              prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+              prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:p-4 prose-pre:rounded-lg prose-pre:overflow-x-auto
+            ">
+              <ReactMarkdown
+                components={{
+                  h2: ({ children }) => (
+                    <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6 first:mt-0">
+                      {children}
+                    </h2>
+                  ),
+                  h3: ({ children }) => (
+                    <h3 className="text-2xl font-bold text-gray-900 mt-8 mb-4">
+                      {children}
+                    </h3>
+                  ),
+                  p: ({ children }) => (
+                    <p className="text-gray-700 leading-relaxed mb-6">
+                      {children}
+                    </p>
+                  ),
+                  ul: ({ children }) => (
+                    <ul className="my-6 space-y-2">
+                      {children}
+                    </ul>
+                  ),
+                  li: ({ children }) => (
+                    <li className="text-gray-700 ml-6 list-disc">
+                      {children}
+                    </li>
+                  ),
+                  a: ({ href, children }) => (
+                    <a
+                      href={href}
+                      className="text-primary-600 hover:text-primary-700 hover:underline transition-colors"
+                      target={href?.startsWith('http') ? '_blank' : undefined}
+                      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    >
+                      {children}
+                    </a>
+                  ),
+                  strong: ({ children }) => (
+                    <strong className="font-semibold text-gray-900">
+                      {children}
+                    </strong>
+                  ),
+                }}
+              >
+                {content}
+              </ReactMarkdown>
             </div>
 
             {/* Tags */}
