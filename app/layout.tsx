@@ -14,6 +14,14 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${settings?.metadata?.ranch_name || 'Golden Hills Ranch'}`,
     },
     description: settings?.metadata?.tagline || 'Sustainable Family Farming Since 1952',
+    icons: {
+      icon: [
+        {
+          url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>",
+          type: 'image/svg+xml',
+        }
+      ],
+    },
   };
 }
 
